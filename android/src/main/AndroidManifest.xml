@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.getui.getuiflut">
+
+    <application>
+        <!-- 用户自定义服务继承自GTIntentService,作为SDK与APP桥梁服务,用来接收各种消息和命令回复 -->
+        <service
+            android:name="com.getui.getuiflut.FlutterIntentService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!-- 配置SDK核心服务 -->
+        <service
+            android:name="com.getui.getuiflut.FlutterPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice" />
+
+        <activity
+            android:name="com.getui.getuiflut.GetuiPluginActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:taskAffinity="${applicationId}.GetuiPluginActivity"
+            android:process=":pushservice"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+    </application>
+</manifest>
