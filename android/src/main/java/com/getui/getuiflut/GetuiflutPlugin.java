@@ -80,35 +80,24 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
                 case FLUTTER_CALL_BACK_CID:
                     if (msg.arg1 == StateType.onReceiveClientId.ordinal()) {
                         GetuiflutPlugin.instance.channel.invokeMethod("onReceiveClientId", msg.obj);
-                        Log.d("flutterHandler", "onReceiveClientId >>> " + msg.obj);
 
                     } else if (msg.arg1 == StateType.onReceiveOnlineState.ordinal()) {
                         GetuiflutPlugin.instance.channel.invokeMethod("onReceiveOnlineState", msg.obj);
-                        Log.d("flutterHandler", "onReceiveOnlineState >>> " + msg.obj);
                     } else {
-                        Log.d(TAG, "default state type...");
                     }
                     break;
                 case FLUTTER_CALL_BACK_MSG:
                     if (msg.arg1 == MessageType.onReceiveMessageData.ordinal()) {
                         GetuiflutPlugin.instance.channel.invokeMethod("onReceiveMessageData", msg.obj);
-                        Log.d("flutterHandler", "onReceiveMessageData >>> " + msg.obj);
-
                     } else if (msg.arg1 == MessageType.onNotificationMessageArrived.ordinal()) {
                         GetuiflutPlugin.instance.channel.invokeMethod("onNotificationMessageArrived", msg.obj);
-                        Log.d("flutterHandler", "onNotificationMessageArrived >>> " + msg.obj);
-
                     } else if (msg.arg1 == MessageType.onNotificationMessageClicked.ordinal()) {
                         GetuiflutPlugin.instance.channel.invokeMethod("onNotificationMessageClicked", msg.obj);
-                        Log.d("flutterHandler", "onNotificationMessageClicked >>> " + msg.obj);
-                    } else {
-                        Log.d(TAG, "default Message type...");
-                    }
+                    } 
                     break;
 
                 case FLUTTER_CALL_BACK_MSG_USER:
                     GetuiflutPlugin.instance.channel.invokeMethod("onTransmitUserMessageReceive", msg.obj);
-                    Log.d(TAG, "default user Message >>> " + msg.obj);
                     break;
                 default:
                     break;
@@ -131,19 +120,14 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
         } else if (call.method.equals("stopPush")) {
             stopPush();
         } else if (call.method.equals("bindAlias")) {
-            Log.d(TAG, "bindAlias:" + call.argument("alias").toString() + call.argument("aSn").toString());
             bindAlias(call.argument("alias").toString(), call.argument("aSn").toString());
         } else if (call.method.equals("unbindAlias")) {
-            Log.d(TAG, "unbindAlias:" + call.argument("alias").toString() + call.argument("aSn").toString() + call.argument("isSelf").toString());
             unbindAlias(call.argument("alias").toString(), call.argument("aSn").toString(), Boolean.parseBoolean( call.argument("isSelf").toString()));
         } else if (call.method.equals("setTag")) {
-            Log.d(TAG, "tags:" + (ArrayList<String>) call.argument("tags"));
             setTag((ArrayList<String>) call.argument("tags"));
         } else if (call.method.equals("onActivityCreate")) {
-            Log.d(TAG, "do onActivityCreate");
             onActivityCreate();
         } else if (call.method.equals("setBadge")) {
-            Log.d(TAG, "do setBadge");
             setBadge((int) call.argument("badge"));
         } else {
             result.notImplemented();
@@ -151,7 +135,6 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
     }
 
     private void initGtSdk() {
-        Log.d(TAG, "init getui sdk...test");
         try {
             PushManager.getInstance().initialize(fContext);
         } catch (Throwable e) {
@@ -188,17 +171,14 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
     }
 
     private String getClientId() {
-        Log.d(TAG, "get client id");
         return PushManager.getInstance().getClientid(fContext);
     }
 
     private void resume() {
-        Log.d(TAG, "resume push service");
         PushManager.getInstance().turnOnPush(fContext);
     }
 
     private void stopPush() {
-        Log.d(TAG, "stop push service");
         PushManager.getInstance().turnOffPush(fContext);
     }
 
@@ -245,7 +225,6 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
 
     static void transmitMessageReceive(String message, String func) {
         if (instance == null) {
-            Log.d(TAG, "Getui flutter plugin doesn't exist");
             return;
         }
         int type;
@@ -265,7 +244,6 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
 
     static void transmitMessageReceive(Map<String, Object> message, String func) {
         if (instance == null) {
-            Log.d(TAG, "Getui flutter plugin doesn't exist");
             return;
         }
         int type;
