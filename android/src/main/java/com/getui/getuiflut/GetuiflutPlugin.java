@@ -115,6 +115,8 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
             initGtSdk();
         } else if (call.method.equals("getClientId")) {
             result.success(getClientId());
+        } else if (call.method.equals("sdkVersion")) {
+            result.success(getSDKVersion());
         } else if (call.method.equals("resume")) {
             resume();
         } else if (call.method.equals("stopPush")) {
@@ -172,6 +174,10 @@ public class GetuiflutPlugin implements MethodCallHandler, FlutterPlugin {
 
     private String getClientId() {
         return PushManager.getInstance().getClientid(fContext);
+    }
+
+    private String getSDKVersion() {
+        return PushManager.getInstance().getVersion(fContext);
     }
 
     private void resume() {
