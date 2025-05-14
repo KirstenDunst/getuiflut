@@ -37,7 +37,6 @@ class Getuiflut {
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
-    print(version);
     return version;
   }
 
@@ -136,71 +135,59 @@ class Getuiflut {
         <String, dynamic>{'aid': aid, 'token': token, 'sn': sn});
   }
 
-  void addEventHandler({
-    required EventHandler onReceiveClientId,
-    required EventHandlerMap onReceiveMessageData,
-    required EventHandlerMap onNotificationMessageArrived,
-    required EventHandlerMap onNotificationMessageClicked,
-    required EventHandlerMap onTransmitUserMessageReceive,
+  void addEventHandler(
+      {required EventHandler onReceiveClientId,
+      required EventHandlerMap onReceiveMessageData,
+      required EventHandlerMap onNotificationMessageArrived,
+      required EventHandlerMap onNotificationMessageClicked,
+      required EventHandlerMap onTransmitUserMessageReceive,
 
-    //deviceToken
-    required EventHandler onRegisterDeviceToken,
+      //deviceToken
+      required EventHandler onRegisterDeviceToken,
 
-    //ios 收到的透传内容
-    required EventHandlerMap onReceivePayload,
-    // ios 收到APNS消息
-    required EventHandlerMap onReceiveNotificationResponse,
-    // ios 收到AppLink消息
-    required EventHandler onAppLinkPayload,
-
-    // ios收到pushmode回调
-    required EventHandlerMap onPushModeResult,
-    // ios收到setTag回调
-    required EventHandlerMap onSetTagResult,
-    // ios收到别名回调
-    required EventHandlerMap onAliasResult,
-    // ios收到查询tag回调
-    required EventHandlerMap onQueryTagResult,
-    // ios收到APNs即将展示回调
-    required EventHandlerMap onWillPresentNotification,
-    // ios收到APNs通知设置跳转回调
-    required EventHandlerMap onOpenSettingsForNotification,
-    // ios通知授权结果
-    required EventHandler onGrantAuthorization,
-    // ios收到实时活动（灵动岛）token回调
-    required EventHandlerMap onLiveActivityResult,
-  }) {
+      //ios 收到的透传内容
+      required EventHandlerMap onReceivePayload,
+      // ios 收到APNS消息
+      required EventHandlerMap onReceiveNotificationResponse,
+      // ios 收到AppLink消息
+      required EventHandler onAppLinkPayload,
+      // ios收到pushmode回调
+      required EventHandlerMap onPushModeResult,
+      // ios收到setTag回调
+      required EventHandlerMap onSetTagResult,
+      // ios收到别名回调
+      required EventHandlerMap onAliasResult,
+      // ios收到查询tag回调
+      required EventHandlerMap onQueryTagResult,
+      // ios收到APNs即将展示回调
+      required EventHandlerMap onWillPresentNotification,
+      // ios收到APNs通知设置跳转回调
+      required EventHandlerMap onOpenSettingsForNotification,
+      // ios通知授权结果
+      required EventHandler onGrantAuthorization,
+      // ios收到实时活动（灵动岛）token回调
+      required EventHandlerMap onLiveActivityResult}) {
     _onReceiveClientId = onReceiveClientId;
-
     _onRegisterDeviceToken = onRegisterDeviceToken;
-
     _onReceiveMessageData = onReceiveMessageData;
     _onNotificationMessageArrived = onNotificationMessageArrived;
     _onNotificationMessageClicked = onNotificationMessageClicked;
-
     _onReceivePayload = onReceivePayload;
     _onReceiveNotificationResponse = onReceiveNotificationResponse;
     _onAppLinkPayload = onAppLinkPayload;
-
     _onPushModeResult = onPushModeResult;
     _onSetTagResult = onSetTagResult;
     _onAliasResult = onAliasResult;
-
     _onQueryTagResult = onQueryTagResult;
     _onWillPresentNotification = onWillPresentNotification;
     _onOpenSettingsForNotification = onOpenSettingsForNotification;
-
     _onTransmitUserMessageReceive = onTransmitUserMessageReceive;
-
     _onGrantAuthorization = onGrantAuthorization;
-
     _onLiveActivityResult = onLiveActivityResult;
-
     _channel.setMethodCallHandler(_handleMethod);
   }
 
   Future _handleMethod(MethodCall call) async {
-    print('_handleMethod:' + call.method);
     switch (call.method) {
       case "onReceiveClientId":
         return _onReceiveClientId(call.arguments);
@@ -221,14 +208,12 @@ class Getuiflut {
             call.arguments.cast<String, dynamic>());
       case "onAppLinkPayload":
         return _onAppLinkPayload(call.arguments);
-
       case "onPushModeResult":
         return _onPushModeResult(call.arguments.cast<String, dynamic>());
       case "onSetTagResult":
         return _onSetTagResult(call.arguments.cast<String, dynamic>());
       case "onAliasResult":
         return _onAliasResult(call.arguments.cast<String, dynamic>());
-
       case "onWillPresentNotification":
         return _onWillPresentNotification(
             call.arguments.cast<String, dynamic>());
@@ -237,38 +222,33 @@ class Getuiflut {
             call.arguments.cast<String, dynamic>());
       case "onQueryTagResult":
         return _onQueryTagResult(call.arguments.cast<String, dynamic>());
-
       case "onTransmitUserMessageReceive":
         return _onTransmitUserMessageReceive(
             call.arguments.cast<String, dynamic>());
-
       case "onGrantAuthorization":
         return _onGrantAuthorization(call.arguments);
-
       case "onLiveActivityResult":
         return _onLiveActivityResult(call.arguments);
-
       default:
-        throw new UnsupportedError("Unrecongnized Event");
+        print('未实现的method:${call.method}');
+      // throw new UnsupportedError("Unrecongnized Event");
     }
   }
 
   //ios
   //初始化SDK
-  void startSdk({
-    required String appId,
-    required String appKey,
-    required String appSecret,
-  }) {
+  void startSdk(
+      {required String appId,
+      required String appKey,
+      required String appSecret}) {
     _channel.invokeMethod(
         'startSdk', {'appId': appId, 'appKey': appKey, 'appSecret': appSecret});
   }
 
-  void startSdkSimple({
-    required String appId,
-    required String appKey,
-    required String appSecret,
-  }) {
+  void startSdkSimple(
+      {required String appId,
+      required String appKey,
+      required String appSecret}) {
     if (Platform.isIOS) {
       _channel.invokeMethod('startSdkSimple',
           {'appId': appId, 'appKey': appKey, 'appSecret': appSecret});
