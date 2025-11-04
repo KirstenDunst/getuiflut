@@ -27,6 +27,11 @@ android {
     namespace "com.getui.getuiflut"
     compileSdkVersion 28
 
+    complieOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JacaVersion.VERSION_17
+    }
+
     defaultConfig {
         minSdkVersion 17
     }
