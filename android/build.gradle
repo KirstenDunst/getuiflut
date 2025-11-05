@@ -25,11 +25,11 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 android {
     namespace "com.getui.getuiflut"
-    compileSdkVersion 28
+    compileSdkVersion 35
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JacaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     defaultConfig {
